@@ -1,0 +1,49 @@
+train: dataset/train/images
+val: dataset/valid/images
+test: dataset/test/images
+
+nc: 39
+names: [
+  '(R-24a)', '(R-19)40km', '(I-4)', '(R-19)80km', '(A-2a)', '(A-32b)',
+  '(A-2b)', '(R-15)', '(A-36)', '(A-1b)', '(R-19)70km', '(R-19)120km',
+  '(R-5b)', '(R-2)', '(R-1)', '(R-4a)', '(A-12)', '(A-18)', '(R-6a)',
+  '(R-5a)', '(R-4b)', '(MP-3)', '(R-6b)', '(A-32a)', '(R-3)', '(R-9)',
+  '(MP-2)', '(MA)', '(R-19)50km', '(MP-1)', '(R-19)30km', '(A-24)',
+  '(R-19)90km', '(R-34)', '(R-24b)', '(R-19)60km', '(Del)', '(R-6c)',
+  '(R-7)'
+]
+
+# ============================================
+# DATA AUGMENTATION - Otimizado para placas
+# ============================================
+
+# Augmentations geométricas
+hsv_h: 0.015          # Variação de matiz (hue) - ajuda com diferentes iluminações
+hsv_s: 0.7            # Variação de saturação - simula condições climáticas
+hsv_v: 0.4            # Variação de valor/brilho - dia/noite/sombras
+
+degrees: 10.0         # Rotação ±10° - placas podem estar ligeiramente inclinadas
+translate: 0.1        # Translação 10% - simula diferentes posições na imagem
+scale: 0.5            # Escala ±50% - placas próximas e distantes
+shear: 5.0            # Cisalhamento ±5° - perspectivas angulares
+perspective: 0.0003   # Distorção de perspectiva - câmeras com diferentes FOV
+
+flipud: 0.0           # NÃO inverter verticalmente (placas têm orientação)
+fliplr: 0.5           # Inverter horizontalmente 50% - espelhamento de faixas
+
+# Augmentations de imagem
+mosaic: 1.0           # Mosaic 100% - combina 4 imagens (muito útil para detecção)
+mixup: 0.15           # MixUp 15% - mistura 2 imagens (aumenta robustez)
+copy_paste: 0.3       # Copy-paste 30% - cola objetos entre imagens (ótimo para placas)
+
+# Augmentations de oclusão/ruído
+erasing: 0.4          # Random erasing 40% - simula oclusões parciais
+crop_fraction: 1.0    # Fração de crop (1.0 = sem crop forçado)
+
+# Blur e ruído (simula condições adversas)
+blur: 0.01            # Desfoque leve - movimento ou foco ruim
+noise: 0.02           # Ruído - câmeras de baixa qualidade
+
+# Controle de qualidade
+auto_augment: None    # Desabilita auto-augment (usamos config manual)
+bgr: 0.0              # Não trocar canais BGR (mantém cores originais)
